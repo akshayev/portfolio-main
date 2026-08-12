@@ -69,8 +69,19 @@ All phase completions, architectural milestones, performance audits, and release
 - Close button with staggered `delay: 0.15s` entrance animation to avoid collision with layout morph.
 - Integrated in `page.tsx` inside a `<section>` with "Flagship Engineering" heading, below ExecutiveBar.
 
+#### Sub-Phase 3.3 — Interactive Timeline Node Tree & Embedded Glass PDF Viewer ✅ COMPLETE
+- Built `src/components/resume/TimelineTree.tsx`:
+  - Vertical timeline layout with `border-l border-white/10` and glowing emerald node indicators (`absolute -left-[29px] h-2 w-2 rounded-full bg-emerald-400`).
+  - Populated with 10 exact milestone entries (Nokia Internship, shortlists, hackathons, shipped CRM & AI agents, leadership roles).
+  - Framer Motion `whileInView` staggered scroll fade-in animations with `viewport={{ once: true }}`.
+- Built `src/components/resume/ResumeCTA.tsx`:
+  - Stylized `GlassPanel` (intensity `medium`) featuring `FileText` & `Download` icons.
+  - Tagline: "Available for Fall 2026 Engineering Roles".
+  - Primary `GlassButton` labeled "Download Executive Resume".
+- Integrated into `src/app/page.tsx` under a new section titled "Engineering Journey" directly below the Bento Grid (`md:grid-cols-3`, Timeline gets `col-span-2`, CTA gets `col-span-1`).
+
 ### 🧪 Verification Metrics
 - ESLint status: Pass (0 errors)
 - TypeScript compiler status: Pass (0 errors)
-- Production Build: Compiled and optimized successfully — route `/` 56.5 kB first load JS
-- layoutId transition: Verified grid → modal morph at 60fps with spring physics (stiffness: 350, damping: 28)
+- Production Build: Compiled and optimized successfully — route `/`
+- Timeline Animations: Smooth staggered scroll fade-ins via Framer Motion `whileInView`
