@@ -1,0 +1,12 @@
+{
+  "owner": {
+    "username": "akshayev",
+    "email": "akshay@example.com"
+  },
+  "record": {
+    "NS": [
+      "amy.ns.cloudflare.com",
+      "bob.ns.cloudflare.com"
+    ]
+  }
+}
