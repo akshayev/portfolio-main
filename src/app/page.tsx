@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GlassCard, GlassButton, GlassPanel, GlassBadge } from "@/components/ui/glass";
+import { ExecutiveBar } from "@/components/hero/ExecutiveBar";
 import { useSpatialTracking, requestGyroPermission } from "@/hooks/useSpatialTracking";
 import { Sparkles, ArrowRight, ShieldCheck, Cpu, Zap, Smartphone } from "lucide-react";
 
@@ -27,6 +28,9 @@ export default function GalleryPage() {
   return (
     <main className="min-h-screen p-6 md:p-12 text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
       <div className="mx-auto max-w-7xl space-y-12">
+        {/* Executive Hero Metric Bar */}
+        <ExecutiveBar />
+
         {/* Header */}
         <div className="space-y-4 text-center md:text-left">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
