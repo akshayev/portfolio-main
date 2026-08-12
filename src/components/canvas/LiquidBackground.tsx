@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface Orb {
   x: number;
@@ -19,12 +20,51 @@ interface Orb {
 
 const MAX_DPR = 1.5;
 
+/**
+ * Renders a single static frame of the liquid gradient at t = 0.
+ * Used when prefers-reduced-motion is active so the background stays
+ * beautiful but completely still.
+ */
+function drawStaticFrame(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  orbs: Orb[]
+) {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#11172A";
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.globalCompositeOperation = "lighter";
+
+  for (let i = 0; i < orbs.length; i++) {
+    const orb = orbs[i];
+
+    // t = 0 → sin(0) = 0, cos(0) = 1
+    const cx = orb.xOffset + (width * 0.08);
+    const cy = orb.yOffset + (height * 0.2);
+    const r = orb.baseRadius;
+
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    grad.addColorStop(0, orb.colorStop0);
+    grad.addColorStop(1, orb.colorStop1);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+  }
+
+  ctx.globalCompositeOperation = "source-over";
+}
+
 export function LiquidBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
   const timeRef = useRef<number>(0);
   const orbsRef = useRef<Orb[]>([]);
   const dimensionsRef = useRef({ width: 0, height: 0 });
+  const prefersReducedMotion = useReducedMotion();
 
   const initOrbs = useCallback((width: number, height: number): Orb[] => {
     const shorter = Math.min(width, height);
@@ -195,6 +235,19 @@ export function LiquidBackground() {
     });
     observer.observe(document.documentElement);
 
+    // ── Accessibility branch ────────────────────────────────────────────────
+    // If the user prefers reduced motion, draw a single static frame and
+    // skip the animation loop entirely.
+    if (prefersReducedMotion) {
+      const { width, height } = dimensionsRef.current;
+      drawStaticFrame(ctx, width, height, orbsRef.current);
+
+      return () => {
+        observer.disconnect();
+        if (resizeTimer) clearTimeout(resizeTimer);
+      };
+    }
+
     // Animation loop
     const loop = (timestamp: number) => {
       renderFrame(ctx, timestamp);
@@ -208,7 +261,7 @@ export function LiquidBackground() {
       observer.disconnect();
       if (resizeTimer) clearTimeout(resizeTimer);
     };
-  }, [resizeCanvas, renderFrame]);
+  }, [resizeCanvas, renderFrame, prefersReducedMotion]);
 
   return (
     <canvas
