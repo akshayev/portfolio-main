@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useMotionValue } from "framer-motion";
+import { useReducedMotion } from "./useReducedMotion";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 // Gyroscope clamping range in degrees.
@@ -68,12 +69,25 @@ export async function requestGyroPermission(): Promise<void> {
  * The caller is responsible for applying `useSpring` if smoothing is desired
  * at a granular level (e.g. per-card spring stiffness), though the values
  * themselves already update at the hardware polling rate.
+ *
+ * If the user has enabled "Reduce motion" at the OS level, both MotionValues
+ * remain locked at `0` and no event listeners are attached.
  */
 export function useSpatialTracking() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    // ── Accessibility guard ────────────────────────────────────────────────
+    // If the user prefers reduced motion, freeze both axes at 0 and do NOT
+    // attach mousemove or deviceorientation listeners.
+    if (prefersReducedMotion) {
+      x.set(0);
+      y.set(0);
+      return;
+    }
+
     const isTouchDevice =
       "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
@@ -122,7 +136,7 @@ export function useSpatialTracking() {
         window.removeEventListener("deviceorientation", handleOrientation);
       };
     }
-  }, [x, y]);
+  }, [x, y, prefersReducedMotion]);
 
   return { x, y };
 }

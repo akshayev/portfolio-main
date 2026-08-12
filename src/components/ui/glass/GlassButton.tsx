@@ -11,6 +11,14 @@ export interface GlassButtonProps
   size?: "sm" | "md" | "lg";
   className?: string;
   icon?: React.ReactNode;
+  /** Accessible label for screen readers when button has no visible text */
+  "aria-label"?: string;
+  /** Indicates the expanded/collapsed state for toggle buttons (menus, accordions) */
+  "aria-expanded"?: boolean;
+  /** Identifies the element controlled by this button (for aria-controls) */
+  "aria-controls"?: string;
+  /** Indicates the button has a popup menu/dialog */
+  "aria-haspopup"?: boolean | "menu" | "listbox" | "tree" | "grid" | "dialog";
 }
 
 export const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
