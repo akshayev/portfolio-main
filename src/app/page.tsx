@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { GlassCard, GlassButton, GlassPanel, GlassBadge } from "@/components/ui/glass";
 import { ExecutiveBar } from "@/components/hero/ExecutiveBar";
+import { BentoGrid } from "@/components/projects/BentoGrid";
 import { useSpatialTracking, requestGyroPermission } from "@/hooks/useSpatialTracking";
 import { Sparkles, ArrowRight, ShieldCheck, Cpu, Zap, Smartphone } from "lucide-react";
 
@@ -30,6 +31,19 @@ export default function GalleryPage() {
       <div className="mx-auto max-w-7xl space-y-12">
         {/* Executive Hero Metric Bar */}
         <ExecutiveBar />
+
+        {/* Section: Flagship Engineering (Bento Grid) */}
+        <section className="space-y-6">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Flagship Engineering
+            </h2>
+            <p className="text-sm text-slate-400">
+              Click any project to explore the full case study.
+            </p>
+          </div>
+          <BentoGrid />
+        </section>
 
         {/* Header */}
         <div className="space-y-4 text-center md:text-left">
