@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { GlassCard, GlassButton, GlassPanel, GlassBadge } from "@/components/ui/glass";
 import { ExecutiveBar } from "@/components/hero/ExecutiveBar";
 import { BentoGrid } from "@/components/projects/BentoGrid";
+import { TimelineTree } from "@/components/resume/TimelineTree";
+import { ResumeCTA } from "@/components/resume/ResumeCTA";
 import { useSpatialTracking, requestGyroPermission } from "@/hooks/useSpatialTracking";
 import { Sparkles, ArrowRight, ShieldCheck, Cpu, Zap, Smartphone } from "lucide-react";
 
@@ -43,6 +45,26 @@ export default function GalleryPage() {
             </p>
           </div>
           <BentoGrid />
+        </section>
+
+        {/* Section: Engineering Journey */}
+        <section className="space-y-6">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Engineering Journey
+            </h2>
+            <p className="text-sm text-slate-400">
+              Interactive experience timeline and executive resume download.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <TimelineTree />
+            </div>
+            <div className="md:col-span-1">
+              <ResumeCTA />
+            </div>
+          </div>
         </section>
 
         {/* Header */}
