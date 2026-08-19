@@ -26,4 +26,4 @@ Welcome to your project's Obsidian Vault! This directory stores your project doc
 
 1. Open **Obsidian**.
 2. Click **"Open folder as vault"**.
-3. Select this `docs` folder (`/home/akshay/Desktop/project/portfolio/docs`)
+3. Select this `docs` folder (`/home/akshay/Desktop/project/portfolio/docs`).
