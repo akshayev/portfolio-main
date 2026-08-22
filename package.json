@@ -9,12 +9,16 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@juggle/resize-observer": "^3.4.0",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.0",
     "lucide-react": "^1.31.0",
     "next": "^15.0.0",
+    "next-sanity": "^9.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sanity": "^3.50.0",
+    "styled-components": "^6.1.13",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
