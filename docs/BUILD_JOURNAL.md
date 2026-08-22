@@ -49,7 +49,7 @@ All phase completions, architectural milestones, performance audits, and release
 
 ---
 
-## [Phase 3: Portfolio UI — Hero, Bento Grid & Interactions] ✅ IN PROGRESS - 2026-08-12
+## [Phase 3: Portfolio UI — Hero, Bento Grid & Interactions] ✅ COMPLETE - 2026-08-12
 
 ### 📌 Summary & Deliverables
 
@@ -85,3 +85,22 @@ All phase completions, architectural milestones, performance audits, and release
 - TypeScript compiler status: Pass (0 errors)
 - Production Build: Compiled and optimized successfully — route `/`
 - Timeline Animations: Smooth staggered scroll fade-ins via Framer Motion `whileInView`
+
+---
+
+## [Phase 4: CMS, Automation & Contact Engine] ✅ IN PROGRESS - 2026-08-22
+
+### 📌 Summary & Deliverables
+
+#### Sub-Phase 4.1 — Sanity CMS Studio & Strict Block Schema ✅ COMPLETE
+- Integrated `next-sanity` and `sanity` into Next.js 15 App Router.
+- Configured environment variables in `.env.example`, `src/sanity/env.ts`, and initialised `createClient` in `src/sanity/client.ts`.
+- Defined strict `projectType` schema document (`src/sanity/schemaTypes/projectType.ts`):
+  - Required: `title`, `slug`, `tagline`, `coverImage`, `techStack`, `problemStatement`, `architecture`, `metrics`, `githubUrl`, `liveUrl`.
+  - Optional: `youtubeUrl` (video walkthroughs).
+- Created root Sanity configuration (`sanity.config.ts`) and embedded studio route at `/studio` (`src/app/studio/[[...tool]]/page.tsx`).
+
+### 🧪 Verification Metrics
+- Sanity Studio Path: Embedded clean route at `/studio`
+- Schema Validation: Strict rules applied across 11 fields (10 required, 1 optional)
+- ESLint & TypeScript: Pass (0 errors)

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "24c50a22f4bf4012",
+        "id": "984eb26b64128978",
         "type": "tabs",
         "children": [
           {
-            "id": "5f16252fa7077fb8",
+            "id": "7a37e03110275d04",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -181,6 +181,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "5f16252fa7077fb8",
-  "lastOpenFiles": []
+  "active": "7a37e03110275d04",
+  "lastOpenFiles": [
+    "01 - Overview/README.md",
+    "01 - Overview",
+    "02_SECOND_BRAIN_GRAPHIFY_OBSIDIAN.md",
+    "BUILD_JOURNAL.md"
+  ]
 }
