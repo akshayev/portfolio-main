@@ -4,9 +4,10 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Dynamically import Spline (ssr: false) so the heavy WebGL runtime and its WASM
-// dependencies are excluded from Next.js server-side build/bundling.
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
+// Hide the import from SWC's dynamic transform to prevent it from rewriting
+// import() to require(), which fails because react-spline only exposes 'import'
+const importSpline = () => import("@splinetool/react-spline");
+const Spline = dynamic(importSpline, {
   ssr: false,
   loading: () => null,
 });
