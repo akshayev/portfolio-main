@@ -1,11 +1,15 @@
 "use client";
 
-import { useState, Suspense, lazy } from "react";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Dynamically import Spline so the heavy WebGL runtime is never server-side rendered
-// and is code-split into its own chunk.
-const Spline = lazy(() => import("@splinetool/react-spline"));
+// Dynamically import Spline (ssr: false) so the heavy WebGL runtime and its WASM
+// dependencies are excluded from Next.js server-side build/bundling.
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const SCENE_URL = "https://prod.spline.design/6mllpWi7EcbIoe-G/scene.splinecode";
 
@@ -105,13 +109,11 @@ export function SplineBackground() {
         aria-hidden="true"
       >
         <div className="w-full h-full pointer-events-auto">
-          <Suspense fallback={null}>
-            <Spline
-              scene={SCENE_URL}
-              onLoad={() => setIsLoaded(true)}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </Suspense>
+          <Spline
+            scene={SCENE_URL}
+            onLoad={() => setIsLoaded(true)}
+            style={{ width: "100%", height: "100%" }}
+          />
         </div>
       </div>
 
