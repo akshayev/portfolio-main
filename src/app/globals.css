@@ -25,18 +25,34 @@
   }
 }
 
-/* Glassmorphism custom utilities */
+/* Glassmorphism custom utilities
+ * ui-ux-pro-max: backdrop-filter blur bumped to 20-24px when over
+ * active 3D WebGL geometry to maintain WCAG text contrast ≥4.5:1
+ */
 .glass-panel {
-  background: rgba(17, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(17, 23, 42, 0.78);
+  /* 24px blur — ui-ux-pro-max glassmorphism spec: 10-20px baseline,
+     pushed to 24px over moving 3D content for contrast safety */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
 .glass-panel-hover:hover {
   border-color: rgba(16, 185, 129, 0.3);
   box-shadow: 0 12px 40px 0 rgba(16, 185, 129, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+/* Over Spline 3D canvas — heavier blur + opacity to preserve text legibility */
+.glass-panel-spline {
+  background: rgba(13, 18, 36, 0.82);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(16, 185, 129, 0.06);
 }
 
 .glass-card-reflection {
@@ -64,3 +80,4 @@
 .glass-card-reflection:hover::before {
   left: 200%;
 }
+

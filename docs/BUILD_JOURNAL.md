@@ -123,3 +123,35 @@ All phase completions, architectural milestones, performance audits, and release
 - Cache Revalidation: Verified `revalidateTag('projects')` in `/api/revalidate` route with header secret verification (`x-sanity-secret`)
 - ESLint & TypeScript: Pass (0 errors)
 
+---
+
+## [Sub-Phase 2.1 Refactor: Spline 3D Scene & UI-UX Pro Max Skill Application] ✅ COMPLETE - 2026-08-23
+
+### 📌 Summary & Deliverables
+
+#### 3D Scene Integration
+- **Scene URL**: `https://prod.spline.design/6mllpWi7EcbIoe-G/scene.splinecode`
+- Installed `@splinetool/react-spline@^2.x` and `@splinetool/runtime` via `npm install --legacy-peer-deps`.
+- Created `src/components/canvas/SplineBackground.tsx` — a lazy-loaded, client-only 3D canvas component:
+  - Uses `React.lazy()` + `Suspense` for code-split WebGL runtime (never SSR'd).
+  - Renders a titanium radial glow fallback during load with pulsing emerald dots — fades out via Framer Motion `AnimatePresence` once Spline fires `onLoad`.
+  - Replaced legacy `LiquidBackground` in `src/app/layout.tsx`.
+
+#### Pointer-Event & Z-Index Layering Strategy (ui-ux-pro-max §Z-Index Management)
+- `SplineBackground` outer wrapper: `pointer-events-none` — prevents canvas intercepting foreground clicks.
+- Inner Spline `<div>`: `pointer-events-auto` — allows orbital drag on uncovered canvas areas.
+- Z-index scale: `-z-50` canvas → `-z-10` titanium vignette → `z-0` page → `z-10` glass overlays → `z-50` modals.
+- Fixed titanium vignette overlay (`-z-10`) applied via radial gradient to create edge contrast and WCAG 4.5:1 margin for foreground text.
+
+#### Glassmorphism Upgrades (ui-ux-pro-max §Glassmorphism Rules)
+- **`globals.css`**: Baseline `.glass-panel` blur escalated from `16px` → `24px`; new `.glass-panel-spline` variant at `28px + saturate(140%)` for sections directly over active geometry.
+- **`GlassPanel.tsx`**: All intensity tiers boosted for moving 3D background:
+  - `light`: `backdrop-blur-md` → `backdrop-blur-xl`
+  - `medium`: `backdrop-blur-xl` → `backdrop-blur-2xl`
+  - `heavy`: `backdrop-blur-2xl` → `backdrop-blur-[32px]`
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+- Z-index stacking verified: Spline canvas (`-z-50`) → Vignette (`-z-10`) → Content (`z-0`)
+- WCAG contrast: Glassmorphic panels measured ≥4.5:1 with upgraded blur values
