@@ -109,3 +109,17 @@ All phase completions, architectural milestones, performance audits, and release
 - Sanity Studio Path: Embedded clean route at `/studio`
 - Schema Validation: Strict rules applied across 11 fields (10 required, 1 optional)
 - ESLint & TypeScript: Pass (0 errors)
+
+#### Sub-Phase 4.2 — Sanity Data Fetching & Make.com Automation Pipeline ✅ COMPLETE
+- Created GROQ query `getFlagshipProjectsQuery` in `src/sanity/queries.ts` selecting all required fields ordered by `_createdAt desc`.
+- Refactored `src/app/page.tsx` to an async Server Component fetching Sanity projects dynamically with cache tag `next: { tags: ['projects'] }`.
+- Updated `src/components/projects/BentoGrid.tsx` with `SanityProject` interface props and responsive layout fallbacks.
+- Extracted interactive spatial tracking components into `src/components/hero/SpatialDemoSection.tsx`.
+- Implemented Next.js 15 Route Handler `src/app/api/revalidate/route.ts` purging cache tag `projects` upon receiving authorized Sanity webhook notifications.
+- Authored Make.com Data Automation & Sanity Webhook Pipeline Runbook in `docs/04_MAKE_AUTOMATION_PIPELINE.md`.
+
+### 🧪 Verification Metrics
+- Sanity Data Fetching: Successfully configured GROQ fetch in async Server Component with `next: { tags: ['projects'] }`
+- Cache Revalidation: Verified `revalidateTag('projects')` in `/api/revalidate` route with header secret verification (`x-sanity-secret`)
+- ESLint & TypeScript: Pass (0 errors)
+
