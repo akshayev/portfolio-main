@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { sendEmail, ContactFormState } from "@/actions/sendEmail";
 import { GlassPanel } from "@/components/ui/glass/GlassPanel";
 import { GlassButton } from "@/components/ui/glass/GlassButton";
-import { Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Send, Loader2, CheckCircle2, AlertCircle, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const initialState: ContactFormState = {};
 
@@ -14,6 +15,10 @@ export function ContactForm() {
     sendEmail,
     initialState
   );
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+
+  const turnstileSiteKey =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 
   return (
     <GlassPanel intensity="heavy" className="relative overflow-hidden w-full max-w-xl mx-auto">
@@ -29,7 +34,7 @@ export function ContactForm() {
             Initiate Contact Protocol
           </h3>
           <p className="text-sm text-slate-400">
-            Dispatch a secure message. Response time usually within 24 standard hours.
+            Dispatch a secure message protected by Upstash rate limiting & Cloudflare Turnstile.
           </p>
         </div>
 
@@ -109,6 +114,24 @@ export function ContactForm() {
             )}
           </div>
 
+          {/* Cloudflare Turnstile Widget */}
+          <div className="py-2 flex flex-col items-center justify-center space-y-1.5">
+            <Turnstile
+              siteKey={turnstileSiteKey}
+              onSuccess={(token) => setTurnstileToken(token)}
+              options={{ theme: "dark" }}
+            />
+            <input
+              type="hidden"
+              name="cf-turnstile-response"
+              value={turnstileToken}
+            />
+            <div className="flex items-center gap-1 text-[11px] text-slate-400">
+              <ShieldCheck className="h-3 w-3 text-emerald-400" />
+              <span>Protected by Cloudflare Turnstile & Upstash Rate Limiter</span>
+            </div>
+          </div>
+
           {/* Form Level Notification Banner */}
           <AnimatePresence mode="wait">
             {state.message && (
@@ -133,7 +156,7 @@ export function ContactForm() {
           </AnimatePresence>
 
           {/* Submit Action */}
-          <div className="pt-2">
+          <div className="pt-1">
             <GlassButton
               type="submit"
               variant="primary"
