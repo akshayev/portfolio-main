@@ -263,3 +263,26 @@ Implemented a 4-tier defense pipeline inside `src/actions/sendEmail.ts`:
 - `npx tsc --noEmit` → 0 errors (Pass)
 - `npm run lint` → 0 errors / 0 warnings (Pass)
 
+---
+
+## [Sub-Phase 5.3: Edge SEO, OpenGraph & Sitemap] ✅ COMPLETE - 2026-08-23
+
+### 📌 Summary & Deliverables
+
+#### Global Metadata & OpenGraph Configuration (`src/app/layout.tsx`)
+- Configured `metadataBase: new URL('https://akshay.is-a.dev')`.
+- Defined dynamic title template, meta description, and OpenGraph/Twitter card metadata objects.
+
+#### Edge OpenGraph Social Preview Card (`src/app/opengraph-image.tsx`)
+- Configured `runtime = 'edge'` with 1200x630 dimensions using `ImageResponse` from `next/og`.
+- Applied Satori-compatible flexbox layout with `#11172A` titanium dark background, `#10B981` emerald radial glow, and executive typography.
+
+#### Automated Dynamic Sitemap (`src/app/sitemap.ts`)
+- Created automated `sitemap.ts` exporting a `MetadataRoute.Sitemap` promise.
+- Included static routes (`/`, `/studio`) and dynamic Sanity project routes (`/projects/${slug}`) fetched via GROQ query with `_updatedAt` timestamps.
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+
+
