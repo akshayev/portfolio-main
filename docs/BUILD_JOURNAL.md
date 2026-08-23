@@ -239,3 +239,27 @@ Implemented a 4-tier defense pipeline inside `src/actions/sendEmail.ts`:
 - `npx tsc --noEmit` → 0 errors (Pass)
 - `npm run lint` → 0 errors / 0 warnings (Pass)
 - `npm run build` → Success. Route `/` = 26.8 kB / 232 kB First Load JS (dynamic chunks deferred to lazy-load boundaries).
+
+---
+
+## [Sub-Phase 5.2: PostHog Analytics & Session Replays] ✅ COMPLETE - 2026-08-23
+
+### 📌 Summary & Deliverables
+
+#### Client-Side Provider Setup (`src/providers/PostHogProvider.tsx`)
+- Installed `posthog-js` and implemented `CSPostHogProvider`.
+- Initialized `posthog` client-side only (`typeof window !== 'undefined'`) with `person_profiles: 'identified_only'` for privacy compliance.
+- Set `capture_pageview: false` to allow manual, accurate SPA pageview tracking in Next.js App Router.
+
+#### App Router SPA Navigation Capture (`PostHogPageView`)
+- Created `PostHogPageView` sub-component listening to `usePathname()` and `useSearchParams()` from `next/navigation`.
+- Captures `$pageview` events with full `$current_url` query parameters without triggering full browser reloads during soft client navigations.
+- Wrapped `PostHogPageView` inside a `Suspense` boundary (`fallback={null}`) as required by Next.js App Router for dynamic navigation hooks.
+
+#### Global Layout Wrapping (`src/app/layout.tsx`)
+- Wrapped all `children` inside `<body>` with `<CSPostHogProvider>`.
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+
