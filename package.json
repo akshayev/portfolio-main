@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
+    "@marsidev/react-turnstile": "^1.6.0",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^2.0.5",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.0",
     "lucide-react": "^1.31.0",

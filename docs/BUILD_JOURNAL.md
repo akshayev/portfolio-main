@@ -182,3 +182,25 @@ All phase completions, architectural milestones, performance audits, and release
 - `npx tsc --noEmit` → 0 errors (Pass)
 - `npm run lint` → 0 errors / 0 warnings (Pass)
 
+---
+
+## [Sub-Phase 4.4: Upstash Redis Rate Limiting & Cloudflare Turnstile] ✅ COMPLETE - 2026-08-23
+
+### 📌 Summary & Deliverables
+
+#### Sequential Verification Security Chain
+Implemented a 4-tier defense pipeline inside `src/actions/sendEmail.ts`:
+1. **Cloudflare Turnstile Bot Challenge Validation**: Verifies the response token using `https://challenges.cloudflare.com/turnstile/v0/siteverify` before processing requests.
+2. **Upstash Redis Sliding Window Rate Limiter**: Restricts IP dispatch frequency to a maximum of 3 requests per 1 hour window via `@upstash/ratelimit`.
+3. **Zod Input Schema Parsing**: Parses `name`, `email`, and `message` payloads using `contactFormSchema.safeParse()`.
+4. **Resend Dispatch Engine**: Sends authenticated emails via `resend.emails.send()`.
+
+#### Client-Side Widget Integration (`ContactForm.tsx`)
+- Integrated `@marsidev/react-turnstile` into the glass form UI.
+- Automatically passes the Turnstile token via hidden form field `cf-turnstile-response`.
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+
+
