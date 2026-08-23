@@ -1,13 +1,84 @@
+import dynamic from "next/dynamic";
 import { client } from "@/sanity/client";
 import { getFlagshipProjectsQuery } from "@/sanity/queries";
 import { ExecutiveBar } from "@/components/hero/ExecutiveBar";
-import { BentoGrid, SanityProject } from "@/components/projects/BentoGrid";
-import { TimelineTree } from "@/components/resume/TimelineTree";
-import { ResumeCTA } from "@/components/resume/ResumeCTA";
-import { SpatialDemoSection } from "@/components/hero/SpatialDemoSection";
-import { ContactForm } from "@/components/contact/ContactForm";
 import { GlassBadge } from "@/components/ui/glass/GlassBadge";
+import { GlassPanel } from "@/components/ui/glass/GlassPanel";
 import { Mail, MapPin, Radio } from "lucide-react";
+import type { SanityProject } from "@/components/projects/BentoGrid";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Dynamic Imports — deferred chunks, excluded from the initial JS bundle.
+// ExecutiveBar is above-the-fold critical path and remains a static import.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * BentoGrid skeleton — maintains the grid height so CLS = 0 while the
+ * component chunk downloads. Uses the same grid layout as BentoGrid.
+ */
+const BentoGridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {[...Array(3)].map((_, i) => (
+      <GlassPanel key={i} intensity="light" className="h-52 animate-pulse opacity-40">{null}</GlassPanel>
+    ))}
+  </div>
+);
+
+/**
+ * TimelineTree skeleton — maintains column height to prevent CLS.
+ */
+const TimelineSkeleton = () => (
+  <GlassPanel intensity="light" className="h-96 animate-pulse opacity-40">{null}</GlassPanel>
+);
+
+/**
+ * ResumeCTA skeleton.
+ */
+const ResumeSkeleton = () => (
+  <GlassPanel intensity="light" className="h-40 animate-pulse opacity-40">{null}</GlassPanel>
+);
+
+/**
+ * ContactForm skeleton — matches the GlassPanel(heavy) height of the real form.
+ */
+const ContactSkeleton = () => (
+  <GlassPanel intensity="heavy" className="h-[480px] animate-pulse opacity-40 max-w-xl mx-auto">{null}</GlassPanel>
+);
+
+/**
+ * SpatialDemoSection skeleton.
+ */
+const SpatialSkeleton = () => (
+  <GlassPanel intensity="light" className="h-64 animate-pulse opacity-40">{null}</GlassPanel>
+);
+
+// Dynamically imported components — each ships in its own JS chunk
+const BentoGrid = dynamic(
+  () => import("@/components/projects/BentoGrid").then((m) => ({ default: m.BentoGrid })),
+  { ssr: true, loading: () => <BentoGridSkeleton /> }
+);
+
+const TimelineTree = dynamic(
+  () => import("@/components/resume/TimelineTree").then((m) => ({ default: m.TimelineTree })),
+  { ssr: true, loading: () => <TimelineSkeleton /> }
+);
+
+const ResumeCTA = dynamic(
+  () => import("@/components/resume/ResumeCTA").then((m) => ({ default: m.ResumeCTA })),
+  { ssr: true, loading: () => <ResumeSkeleton /> }
+);
+
+// SpatialDemoSection is already a "use client" heavy component — defer it
+const SpatialDemoSection = dynamic(
+  () => import("@/components/hero/SpatialDemoSection").then((m) => ({ default: m.SpatialDemoSection })),
+  { loading: () => <SpatialSkeleton /> }
+);
+
+// ContactForm uses Turnstile (heavy client widget) — deferred chunk
+const ContactForm = dynamic(
+  () => import("@/components/contact/ContactForm").then((m) => ({ default: m.ContactForm })),
+  { loading: () => <ContactSkeleton /> }
+);
 
 export const revalidate = 3600; // fallback revalidation in seconds
 
@@ -27,10 +98,10 @@ export default async function GalleryPage() {
   return (
     <main className="min-h-screen p-6 md:p-12 text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
       <div className="mx-auto max-w-7xl space-y-16">
-        {/* Executive Hero Metric Bar */}
+        {/* ── Above the fold: static import — zero deferral ─────────── */}
         <ExecutiveBar />
 
-        {/* Section: Flagship Engineering (Bento Grid) */}
+        {/* ── Section: Flagship Engineering (deferred chunk) ─────────── */}
         <section className="space-y-6">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
@@ -43,7 +114,7 @@ export default async function GalleryPage() {
           <BentoGrid projects={projects} />
         </section>
 
-        {/* Section: Engineering Journey */}
+        {/* ── Section: Engineering Journey (deferred chunks) ─────────── */}
         <section className="space-y-6">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
@@ -63,10 +134,10 @@ export default async function GalleryPage() {
           </div>
         </section>
 
-        {/* Interactive Spatial Demo Section */}
+        {/* ── Interactive Spatial Demo (client-only deferred chunk) ───── */}
         <SpatialDemoSection />
 
-        {/* Section: Initiate Protocol (Contact Engine) */}
+        {/* ── Section: Initiate Protocol — Contact Engine ─────────────── */}
         <section className="space-y-6 pt-4 border-t border-white/10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
@@ -107,6 +178,7 @@ export default async function GalleryPage() {
             </div>
 
             <div>
+              {/* ContactForm: client-only deferred chunk (Turnstile + Resend) */}
               <ContactForm />
             </div>
           </div>
@@ -115,4 +187,3 @@ export default async function GalleryPage() {
     </main>
   );
 }
-

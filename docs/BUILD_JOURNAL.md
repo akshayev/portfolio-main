@@ -204,3 +204,38 @@ Implemented a 4-tier defense pipeline inside `src/actions/sendEmail.ts`:
 - `npm run lint` → 0 errors / 0 warnings (Pass)
 
 
+
+---
+
+## [Sub-Phase 5.1: Dynamic Asset Deferral & Web Vitals Optimization] ✅ COMPLETE - 2026-08-23
+
+### 📌 Summary & Deliverables
+
+#### `next/dynamic` Chunk Boundaries Established in `page.tsx`
+
+| Component | Strategy | SSR | Loading Fallback |
+|---|---|---|---|
+| `ExecutiveBar` | **Static import** (above-fold critical path) | ✅ | — |
+| `BentoGrid` | `next/dynamic` | ✅ | 3-col pulse skeleton grid |
+| `TimelineTree` | `next/dynamic` | ✅ | h-96 pulse GlassPanel |
+| `ResumeCTA` | `next/dynamic` | ✅ | h-40 pulse GlassPanel |
+| `SpatialDemoSection` | `next/dynamic` | ✅ | h-64 pulse GlassPanel |
+| `ContactForm` | `next/dynamic` | ✅ | h-[480px] pulse GlassPanel |
+
+#### Font Optimization (`layout.tsx`)
+- Integrated `next/font/google` with `Inter` variable font.
+- Config: `display: 'swap'`, `preload: true`, `subsets: ['latin']`.
+- Eliminates FOIT (Flash of Invisible Text) and removes per-weight font requests.
+
+#### SplineBackground Deferral (Verified ✅)
+- `SplineBackground.tsx` confirmed to use `next/dynamic` with the Spline import isolated from SWC transform (`const importSpline = () => import(...)`).
+- The Spline WebGL runtime is excluded from the SSR bundle and deferred post-hydration, ensuring it does not block FCP of `ExecutiveBar`.
+
+#### CLS Prevention Strategy
+- All dynamic fallback skeletons use `GlassPanel` with fixed heights matching rendered component dimensions.
+- `animate-pulse` on `opacity-40` provides branded titanium shimmer feedback.
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+- `npm run build` → Success. Route `/` = 26.8 kB / 232 kB First Load JS (dynamic chunks deferred to lazy-load boundaries).
