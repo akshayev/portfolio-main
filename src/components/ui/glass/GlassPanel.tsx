@@ -10,9 +10,10 @@ export interface GlassPanelProps extends React.HTMLAttributes<HTMLDivElement> {
 export const GlassPanel = React.forwardRef<HTMLDivElement, GlassPanelProps>(
   ({ children, className, intensity = "medium", ...props }, ref) => {
     const intensityClasses = {
-      light: "bg-slate-900/40 backdrop-blur-md border-white/5",
-      medium: "bg-slate-900/70 backdrop-blur-xl border-white/10 shadow-2xl",
-      heavy: "bg-slate-950/85 backdrop-blur-2xl border-white/15 shadow-2xl",
+      // ui-ux-pro-max: blur escalated for active 3D background compliance
+      light: "bg-slate-900/50 backdrop-blur-xl border-white/5",
+      medium: "bg-slate-900/75 backdrop-blur-2xl border-white/10 shadow-2xl",
+      heavy: "bg-slate-950/88 backdrop-blur-[32px] border-white/15 shadow-2xl",
     };
 
     return (
