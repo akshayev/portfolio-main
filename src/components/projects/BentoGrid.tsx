@@ -30,7 +30,7 @@ const MOCK_PROJECTS: SanityProject[] = [
   {
     _id: "citypulse-ai",
     title: "CityPulse AI",
-    tagline: "Real-time urban intelligence platform",
+    tagline: "Real-time urban intelligence platform with sub-10ms edge spatial queries.",
     problemStatement:
       "Modern municipalities suffer from fragmented sensor data streams, making rapid emergency response and traffic congestion management reactive rather than predictive.",
     architecture:
@@ -43,7 +43,7 @@ const MOCK_PROJECTS: SanityProject[] = [
   {
     _id: "leadflow-pro",
     title: "LeadFlow Pro",
-    tagline: "AI-native B2B sales pipeline automation",
+    tagline: "AI-native B2B sales pipeline automation & agent orchestration.",
     problemStatement:
       "B2B sales teams lose high-intent leads due to manual scoring delays and uncoordinated multi-channel follow-up workflows.",
     architecture:
@@ -56,7 +56,7 @@ const MOCK_PROJECTS: SanityProject[] = [
   {
     _id: "travelsphere",
     title: "TravelSphere",
-    tagline: "Spatial-aware travel discovery engine",
+    tagline: "Spatial-aware travel discovery engine with 60fps 3D layer maps.",
     problemStatement:
       "Static travel portals fail to provide intuitive visual discovery for complex multi-destination itineraries.",
     architecture:
@@ -69,16 +69,9 @@ const MOCK_PROJECTS: SanityProject[] = [
 ];
 
 const ICONS = [
-  <Globe key="1" className="h-6 w-6" />,
-  <Zap key="2" className="h-6 w-6" />,
-  <Cpu key="3" className="h-6 w-6" />,
-];
-
-const VARIANTS: Array<"emerald" | "titanium" | "outline"> = ["emerald", "titanium", "outline"];
-const ACCENTS = [
-  "rgba(16,185,129,0.2)",
-  "rgba(148,163,184,0.15)",
-  "rgba(16,185,129,0.12)",
+  <Globe key="1" className="h-5 w-5 text-emerald-400" />,
+  <Zap key="2" className="h-5 w-5 text-emerald-400" />,
+  <Cpu key="3" className="h-5 w-5 text-emerald-400" />,
 ];
 
 interface CardContentProps {
@@ -89,35 +82,49 @@ interface CardContentProps {
 
 const CardContent: React.FC<CardContentProps> = ({ project, index, isModal = false }) => {
   const icon = ICONS[index % ICONS.length];
-  const variant = VARIANTS[index % VARIANTS.length];
-  const accentColor = ACCENTS[index % ACCENTS.length];
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
-        <span
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-emerald-400"
-          style={{ background: accentColor }}
-        >
-          {icon}
-        </span>
-        <GlassBadge variant={variant}>
+      {/* Top Bar: Icon, Active Indicator & Main Tech Badge */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+            {icon}
+          </span>
+
+          {/* Glowing Emerald Accent Dot for Active Status */}
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10B981] inline-block shrink-0" />
+            <span className="text-[11px] font-mono tracking-wider text-emerald-400/90 uppercase">
+              LIVE_NODE
+            </span>
+          </div>
+        </div>
+
+        <GlassBadge variant="emerald" className="text-xs">
           {project.techStack?.[0] || "Featured"}
         </GlassBadge>
       </div>
 
+      {/* Header & Tagline — High Contrast Typography */}
       <h3
         className={cn(
-          "font-bold text-white",
-          isModal ? "text-2xl md:text-3xl mb-2" : "text-lg mb-1"
+          "font-medium tracking-tight text-white",
+          isModal ? "text-2xl md:text-3xl mb-3" : "text-xl md:text-2xl mb-2"
         )}
       >
         {project.title}
       </h3>
-      <p className={cn("text-slate-400", isModal ? "text-base mb-6" : "text-xs mb-4")}>
+      <p
+        className={cn(
+          "text-slate-400 leading-relaxed",
+          isModal ? "text-base mb-6" : "text-sm mb-6"
+        )}
+      >
         {project.tagline}
       </p>
 
+      {/* Expanded Modal Content */}
       {isModal && (
         <div className="space-y-6 text-slate-300 mb-8">
           <div>
@@ -150,9 +157,10 @@ const CardContent: React.FC<CardContentProps> = ({ project, index, isModal = fal
                 {project.metrics.map((metric, idx) => (
                   <div
                     key={idx}
-                    className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-300"
+                    className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-2.5 text-xs font-medium text-emerald-300 flex items-center gap-2"
                   >
-                    {metric}
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                    <span>{metric}</span>
                   </div>
                 ))}
               </div>
@@ -161,16 +169,18 @@ const CardContent: React.FC<CardContentProps> = ({ project, index, isModal = fal
         </div>
       )}
 
+      {/* Tech Stack Tags */}
       <div className="flex flex-wrap gap-2">
         {(isModal ? project.techStack : project.techStack?.slice(0, 3) || []).map((tag) => (
-          <GlassBadge key={tag} variant="titanium" className="text-[10px]">
+          <GlassBadge key={tag} variant="titanium" className="text-[11px]">
             {tag}
           </GlassBadge>
         ))}
       </div>
 
+      {/* Modal Actions */}
       {isModal && (
-        <div className="mt-8 flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+        <div className="mt-8 flex flex-wrap items-center gap-3 pt-6 border-t border-white/5">
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
               <GlassButton variant="primary" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
@@ -207,49 +217,47 @@ export const BentoGrid: React.FC<BentoGridProps> = ({ projects }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[250px] gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[300px] gap-6">
         {displayProjects.map((project, index) => {
           const colSpan = index === 0 ? "md:col-span-2" : "";
-          const accentColor = ACCENTS[index % ACCENTS.length];
 
           return (
-            <motion.div
+            <div
               key={project._id}
-              layoutId={`project-${project._id}`}
               onClick={() => setSelectedId(project._id)}
               className={cn(
-                "relative overflow-hidden rounded-2xl cursor-pointer",
-                "bg-slate-900/70 border border-white/10 p-6",
-                "backdrop-blur-xl shadow-2xl",
-                "hover:border-emerald-500/30 hover:shadow-[0_12px_40px_rgba(16,185,129,0.15)]",
-                "transition-colors duration-300",
+                "group relative overflow-hidden rounded-2xl cursor-pointer p-8 transition-all duration-300",
+                "bg-[#0B0F19]/85 backdrop-blur-md border border-white/5",
+                "hover:border-emerald-500/30 hover:bg-[#0B0F19]/95 hover:shadow-[0_0_30px_rgba(16,185,129,0.06)]",
                 colSpan
               )}
-              whileHover={{ scale: 1.015, y: -2 }}
-              whileTap={{ scale: 0.985 }}
-              transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              style={{ originX: 0.5, originY: 0.5 }}
             >
+              {/* Subtle Ambient Radial Highlight */}
               <div
-                className="pointer-events-none absolute inset-0 rounded-2xl opacity-60"
-                style={{
-                  background: `radial-gradient(ellipse at 20% 20%, ${accentColor}, transparent 65%)`,
-                }}
+                className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-emerald-500/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                aria-hidden="true"
               />
-              <div className="relative z-10">
+
+              {/* Inner Content Scales Slightly (scale: 1.03) while Outer Container Stays Completely Fixed */}
+              <motion.div
+                className="relative z-10 h-full flex flex-col justify-between"
+                whileHover={{ scale: 1.025 }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              >
                 <CardContent project={project} index={index} isModal={false} />
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           );
         })}
       </div>
 
+      {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedId && selectedProject && (
           <>
             <motion.div
               key="backdrop"
-              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-md"
+              className="fixed inset-0 z-40 bg-[#050810]/80 backdrop-blur-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -260,17 +268,17 @@ export const BentoGrid: React.FC<BentoGridProps> = ({ projects }) => {
             <motion.div
               key={`modal-${selectedId}`}
               layoutId={`project-${selectedId}`}
-              className="fixed z-50 inset-4 md:inset-[8%] lg:inset-[12%] overflow-auto rounded-3xl"
+              className="fixed z-50 inset-4 md:inset-[8%] lg:inset-[12%] overflow-auto rounded-2xl p-8 md:p-12"
               style={{
-                background: "rgba(15,23,42,0.95)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                backdropFilter: "blur(28px)",
-                boxShadow: `0 40px 120px rgba(0,0,0,0.6), 0 0 60px ${ACCENTS[selectedIndex % ACCENTS.length]}`,
+                background: "rgba(11, 15, 25, 0.96)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                backdropFilter: "blur(24px)",
+                boxShadow: "0 30px 100px rgba(0,0,0,0.8), 0 0 50px rgba(16,185,129,0.08)",
               }}
             >
-              <div className="relative p-6 md:p-10">
+              <div className="relative">
                 <motion.button
-                  className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-slate-800/80 border border-white/10 text-slate-400 hover:text-white hover:bg-slate-700/80 transition-colors z-20"
+                  className="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 border border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-colors z-20"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
@@ -281,12 +289,6 @@ export const BentoGrid: React.FC<BentoGridProps> = ({ projects }) => {
                   <X className="h-4 w-4" />
                 </motion.button>
 
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-3xl opacity-40"
-                  style={{
-                    background: `radial-gradient(ellipse at 15% 15%, ${ACCENTS[selectedIndex % ACCENTS.length]}, transparent 60%)`,
-                  }}
-                />
                 <div className="relative z-10">
                   <CardContent project={selectedProject} index={selectedIndex} isModal />
                 </div>
