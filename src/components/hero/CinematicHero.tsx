@@ -8,6 +8,7 @@ import type { Application, SplineEvent } from "@splinetool/runtime";
 import { BriefcaseBusiness, Code2, File } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 
 const importSpline = () => import("@splinetool/react-spline");
@@ -196,56 +197,98 @@ function KeyboardScene() {
     selectedSkillRef.current = skill;
   };
 
-  const createSectionTimeline = (
-    triggerId: string,
-    targetSection: Section,
-    prevSection: Section,
-    start = "top 50%",
-    end = "bottom bottom"
-  ) => {
-    if (!splineApp || !document.querySelector(triggerId)) return undefined;
-    const kbd = splineApp.findObjectByName("keyboard");
-    if (!kbd) return undefined;
+  // ── GSAP Scroll-Linked Physics Engine ───────────────────────────
+  useGSAP(
+    () => {
+      if (!splineApp) return;
+      const kbd = splineApp.findObjectByName("keyboard") || splineApp.findObjectByName("Keyboard");
+      if (!kbd) return;
 
-    return gsap.timeline({
-      scrollTrigger: {
-        trigger: triggerId,
-        start,
-        end,
-        scrub: true,
-        onEnter: () => {
-          setActiveSection(targetSection);
-          const state = getKeyboardState({ section: targetSection, isMobile });
-          gsap.to(kbd.scale, { ...state.scale, duration: 1 });
-          gsap.to(kbd.position, { ...state.position, duration: 1 });
-          gsap.to(kbd.rotation, { ...state.rotation, duration: 1 });
+      const heroState = getKeyboardState({ section: "hero", isMobile });
+      gsap.set(kbd.scale, heroState.scale);
+      gsap.set(kbd.position, heroState.position);
+      gsap.set(kbd.rotation, heroState.rotation);
+
+      // 1. Continuous Hero Scroll Scrub (Rotation, Zoom, Position & Scale)
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+          onUpdate: (self) => {
+            const p = self.progress;
+
+            // Dynamically adjust Spline zoom on scroll
+            if (typeof splineApp.setZoom === "function") {
+              const zoom = gsap.utils.interpolate(1, 0.85, p);
+              splineApp.setZoom(zoom);
+            }
+
+            const targetSkills = getKeyboardState({ section: "skills", isMobile });
+
+            // Smooth position shift from right into center
+            kbd.position.x = gsap.utils.interpolate(heroState.position.x, targetSkills.position.x, p);
+            kbd.position.y = gsap.utils.interpolate(heroState.position.y, targetSkills.position.y, p);
+            kbd.position.z = gsap.utils.interpolate(heroState.position.z, targetSkills.position.z, p);
+
+            // Rotate upwards to showcase keycaps and turn towards skills angle
+            kbd.rotation.x = gsap.utils.interpolate(
+              heroState.rotation.x,
+              targetSkills.rotation.x + 0.35 * Math.sin(p * Math.PI),
+              p
+            );
+            kbd.rotation.y = gsap.utils.interpolate(heroState.rotation.y, targetSkills.rotation.y, p);
+            kbd.rotation.z = gsap.utils.interpolate(heroState.rotation.z, targetSkills.rotation.z, p);
+
+            // Scale interpolation
+            const currentScale = gsap.utils.interpolate(heroState.scale.x, targetSkills.scale.x, p);
+            kbd.scale.x = currentScale;
+            kbd.scale.y = currentScale;
+            kbd.scale.z = currentScale;
+          },
         },
-        onLeaveBack: () => {
-          setActiveSection(prevSection);
-          const state = getKeyboardState({ section: prevSection, isMobile });
-          gsap.to(kbd.scale, { ...state.scale, duration: 1 });
-          gsap.to(kbd.position, { ...state.position, duration: 1 });
-          gsap.to(kbd.rotation, { ...state.rotation, duration: 1 });
-        },
-      },
-    });
-  };
+      });
 
-  const setupScrollAnimations = () => {
-    if (!splineApp || !splineContainer.current) return [];
-    const kbd = splineApp.findObjectByName("keyboard");
-    if (!kbd) return [];
+      // 2. Section Timeline Triggers (Skills, Projects, Contact)
+      const createSectionTimeline = (
+        triggerId: string,
+        targetSection: Section,
+        prevSection: Section,
+        start = "top 50%",
+        end = "bottom bottom"
+      ) => {
+        const el = document.querySelector(triggerId);
+        if (!el) return;
 
-    const heroState = getKeyboardState({ section: "hero", isMobile });
-    gsap.set(kbd.scale, heroState.scale);
-    gsap.set(kbd.position, heroState.position);
+        ScrollTrigger.create({
+          trigger: triggerId,
+          start,
+          end,
+          scrub: 1,
+          onEnter: () => {
+            setActiveSection(targetSection);
+            const state = getKeyboardState({ section: targetSection, isMobile });
+            gsap.to(kbd.scale, { ...state.scale, duration: 1.2, ease: "power2.out" });
+            gsap.to(kbd.position, { ...state.position, duration: 1.2, ease: "power2.out" });
+            gsap.to(kbd.rotation, { ...state.rotation, duration: 1.2, ease: "power2.out" });
+          },
+          onLeaveBack: () => {
+            setActiveSection(prevSection);
+            const state = getKeyboardState({ section: prevSection, isMobile });
+            gsap.to(kbd.scale, { ...state.scale, duration: 1.2, ease: "power2.out" });
+            gsap.to(kbd.position, { ...state.position, duration: 1.2, ease: "power2.out" });
+            gsap.to(kbd.rotation, { ...state.rotation, duration: 1.2, ease: "power2.out" });
+          },
+        });
+      };
 
-    return [
-      createSectionTimeline("#skills", "skills", "hero"),
-      createSectionTimeline("#projects", "projects", "skills", "top 70%"),
-      createSectionTimeline("#contact", "contact", "projects", "top 30%"),
-    ].filter(Boolean) as gsap.core.Timeline[];
-  };
+      createSectionTimeline("#skills", "skills", "hero");
+      createSectionTimeline("#projects", "projects", "skills", "top 70%");
+      createSectionTimeline("#contact", "contact", "projects", "top 30%");
+    },
+    { dependencies: [splineApp, isMobile] }
+  );
 
   const getBongoAnimation = () => {
     const framesParent = splineApp?.findObjectByName("bongo-cat");
@@ -332,7 +375,7 @@ function KeyboardScene() {
 
   const updateKeyboardTransform = async () => {
     if (!splineApp) return;
-    const kbd = splineApp.findObjectByName("keyboard");
+    const kbd = splineApp.findObjectByName("keyboard") || splineApp.findObjectByName("Keyboard");
     if (!kbd) return;
 
     kbd.visible = false;
@@ -406,17 +449,12 @@ function KeyboardScene() {
     });
     splineApp.addEventListener("mouseHover", handleMouseHover);
 
-    const timelines = setupScrollAnimations();
     bongoAnimationRef.current = getBongoAnimation();
     keycapAnimationsRef.current = getKeycapsAnimation();
 
     return () => {
       bongoAnimationRef.current?.stop();
       keycapAnimationsRef.current?.stop();
-      timelines.forEach((timeline) => {
-        timeline.scrollTrigger?.kill();
-        timeline.kill();
-      });
     };
   }, [splineApp, isMobile, playPressSound, playReleaseSound]);
 
@@ -529,9 +567,9 @@ function KeyboardScene() {
   }, [splineApp]);
 
   return (
-    <div ref={splineContainer} className="fixed inset-0 z-0 h-full w-full">
+    <div ref={splineContainer} className="fixed inset-0 z-0 h-full w-full pointer-events-none">
       <Spline
-        className="h-full w-full"
+        className="h-full w-full pointer-events-auto"
         onLoad={(app: Application) => setSplineApp(app)}
         scene="/assets/skills-keyboard.spline"
       />
@@ -680,7 +718,7 @@ function HeroButton({
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       className={cn(
-        "inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors",
+        "pointer-events-auto inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black",
         variant === "solid"
           ? "bg-white text-black hover:bg-white/90"
@@ -694,12 +732,12 @@ function HeroButton({
 
 export function CinematicHero() {
   return (
-    <SectionWrapper id="hero" className="h-screen w-full overflow-hidden bg-slate-100 dark:bg-transparent">
+    <SectionWrapper id="hero" className="hero-container h-screen w-full overflow-hidden bg-slate-100 dark:bg-transparent">
       <KeyboardScene />
-      <div className="grid md:grid-cols-2">
+      <div className="grid md:grid-cols-2 pointer-events-none">
         <div
           className={cn(
-            "z-[2] col-span-1 h-[calc(100dvh-3rem)] md:h-[calc(100dvh-4rem)]",
+            "z-[2] col-span-1 h-[calc(100dvh-3rem)] md:h-[calc(100dvh-4rem)] pointer-events-none",
             "flex flex-col items-center justify-start md:items-start md:justify-center",
             "pt-28 sm:pb-16 md:p-20 lg:p-24 xl:p-28"
           )}
