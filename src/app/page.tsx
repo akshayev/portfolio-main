@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { client } from "@/sanity/client";
 import { getFlagshipProjectsQuery } from "@/sanity/queries";
+import { CinematicHero } from "@/components/hero/CinematicHero";
 import { ExecutiveBar } from "@/components/hero/ExecutiveBar";
 import { GlassBadge } from "@/components/ui/glass/GlassBadge";
 import { GlassPanel } from "@/components/ui/glass/GlassPanel";
@@ -8,13 +9,12 @@ import { Mail, MapPin, Radio } from "lucide-react";
 import type { SanityProject } from "@/components/projects/BentoGrid";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Dynamic Imports — deferred chunks, excluded from the initial JS bundle.
-// ExecutiveBar is above-the-fold critical path and remains a static import.
+// Dynamic Imports — deferred chunks, excluded from initial JS bundle.
+// CinematicHero & ExecutiveBar are above-the-fold critical path (static imports).
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * BentoGrid skeleton — maintains the grid height so CLS = 0 while the
- * component chunk downloads. Uses the same grid layout as BentoGrid.
+ * BentoGrid skeleton — maintains the grid height so CLS = 0 while loading.
  */
 const BentoGridSkeleton = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -68,13 +68,11 @@ const ResumeCTA = dynamic(
   { ssr: true, loading: () => <ResumeSkeleton /> }
 );
 
-// SpatialDemoSection is already a "use client" heavy component — defer it
 const SpatialDemoSection = dynamic(
   () => import("@/components/hero/SpatialDemoSection").then((m) => ({ default: m.SpatialDemoSection })),
   { loading: () => <SpatialSkeleton /> }
 );
 
-// ContactForm uses Turnstile (heavy client widget) — deferred chunk
 const ContactForm = dynamic(
   () => import("@/components/contact/ContactForm").then((m) => ({ default: m.ContactForm })),
   { loading: () => <ContactSkeleton /> }
@@ -96,9 +94,12 @@ export default async function GalleryPage() {
   }
 
   return (
-    <main className="min-h-screen p-6 md:p-12 text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
-      <div className="mx-auto max-w-7xl space-y-16">
-        {/* ── Above the fold: static import — zero deferral ─────────── */}
+    <main className="min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+      {/* ── Awwwards-style Cinematic Parallax Hero Section ─────────── */}
+      <CinematicHero />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 space-y-16 pb-24">
+        {/* Executive Metric Bar */}
         <ExecutiveBar />
 
         {/* ── Section: Flagship Engineering (deferred chunk) ─────────── */}
@@ -134,7 +135,7 @@ export default async function GalleryPage() {
           </div>
         </section>
 
-        {/* ── Interactive Spatial Demo (client-only deferred chunk) ───── */}
+        {/* ── Interactive Spatial Demo (deferred chunk) ───────────────── */}
         <SpatialDemoSection />
 
         {/* ── Section: Initiate Protocol — Contact Engine ─────────────── */}
@@ -178,7 +179,6 @@ export default async function GalleryPage() {
             </div>
 
             <div>
-              {/* ContactForm: client-only deferred chunk (Turnstile + Resend) */}
               <ContactForm />
             </div>
           </div>

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SplineBackground } from "@/components/canvas/SplineBackground";
 import { CSPostHogProvider } from "@/providers/PostHogProvider";
+import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 
 /**
  * Inter — preloaded with font-display: swap to prevent FOIT.
@@ -72,16 +73,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="bg-[#11172A] text-slate-100 antialiased font-sans selection:bg-emerald-500 selection:text-slate-950">
+      <body className="bg-[#050810] text-slate-100 antialiased font-sans selection:bg-emerald-500 selection:text-slate-950">
         <CSPostHogProvider>
-          {/*
-           * SplineBackground: fixed -z-50 behind all content.
-           * Internally uses next/dynamic (ssr: false) — the Spline WebGL runtime
-           * is excluded from the SSR bundle and deferred until client hydration,
-           * ensuring it never blocks FCP of the ExecutiveBar.
-           */}
-          <SplineBackground />
-          {children}
+          <SmoothScrollProvider>
+            {/*
+             * SplineBackground: fixed -z-50 behind all content.
+             * Internally uses next/dynamic (ssr: false) — the Spline WebGL runtime
+             * is excluded from the SSR bundle and deferred until client hydration,
+             * ensuring it never blocks FCP.
+             */}
+            <SplineBackground />
+            {children}
+          </SmoothScrollProvider>
         </CSPostHogProvider>
       </body>
     </html>
