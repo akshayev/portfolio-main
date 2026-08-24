@@ -4,6 +4,7 @@ import "./globals.css";
 import { CSPostHogProvider } from "@/providers/PostHogProvider";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 import { GlobalCanvas } from "@/components/canvas/GlobalCanvas";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 /**
  * Inter — preloaded with font-display: swap to prevent FOIT.
@@ -78,6 +79,8 @@ export default function RootLayout({
           <SmoothScrollProvider>
             {/* ── Global persistent 3D canvas — fixed z-0 behind all page content ── */}
             <GlobalCanvas />
+            {/* ── Custom cursor — fixed z-[9999], pointer-events-none, desktop only ── */}
+            <CustomCursor />
             {children}
           </SmoothScrollProvider>
         </CSPostHogProvider>

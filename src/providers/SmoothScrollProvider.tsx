@@ -31,7 +31,15 @@ export function SmoothScrollProvider({
       root
       autoRaf={false}
       options={{
+        // lerp: 0.05 — very low linear interpolation factor creates the heavy,
+        // cinematic "dragging" scroll feel characteristic of Naresh-Khatri/3d-portfolio.
+        // Higher lerp (e.g. 0.1) feels snappier; lower (0.03) feels syrupy.
+        lerp: 0.05,
         duration: 2,
+        smoothWheel: true,
+        // syncTouch: true — applies smooth scroll physics on touch devices too,
+        // giving mobile the same cinematic feel as desktop.
+        syncTouch: true,
         prevent: (node) => {
           if (isInsideModal) return true;
           return node.classList.contains("modall");

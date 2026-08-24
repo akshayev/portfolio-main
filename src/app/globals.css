@@ -24,6 +24,20 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     overflow-x: hidden;
     max-width: 100vw;
+    /* Hide native cursor on desktop — CustomCursor component renders the
+       custom ring + dot. Touch devices retain default cursor behavior. */
+    cursor: none;
+  }
+
+  /* Restore cursor on touch devices where CustomCursor is not rendered */
+  @media (hover: none) and (pointer: coarse) {
+    html, body {
+      cursor: auto;
+    }
+
+    * {
+      cursor: auto !important;
+    }
   }
 }
 

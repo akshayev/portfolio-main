@@ -66,14 +66,20 @@ function BoxReveal({ children, width = "fit-content", delay = 0 }: { children: R
 
 // ─── Scroll-down indicator ────────────────────────────────────────────────────
 function ScrollDownIcon() {
+  // `isMounted` ensures SSR and the initial client render both produce `null`,
+  // eliminating any possible hydration mismatch before the scroll listener fires.
+  const [isMounted, setIsMounted] = useState(false);
   const [show, setShow] = useState(true);
+
   useEffect(() => {
+    setIsMounted(true);
     const onScroll = () => setShow(window.scrollY <= 10);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  if (!show) return null;
+
+  if (!isMounted || !show) return null;
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -166,8 +172,21 @@ export function CinematicHero() {
                   "cursor-default whitespace-nowrap bg-clip-text text-md font-medium text-slate-500 dark:text-zinc-400",
                   "md:mt-4 md:self-start sm:text-xl md:text-xl"
                 )}>
-                  A Full Stack Web Developer
+                  Full-Stack Web &amp; Data Pipeline Engineer
                 </p>
+              </BlurIn>
+
+              {/* B.Tech status badge */}
+              <BlurIn delay={1.4}>
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  <span className="text-xs font-mono tracking-wider text-emerald-400/90 uppercase">
+                    B.Tech &apos;26 @ CUSAT CUCEK
+                  </span>
+                </div>
               </BlurIn>
             </div>
 

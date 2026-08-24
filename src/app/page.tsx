@@ -97,20 +97,41 @@ export default async function GalleryPage() {
     /*
      * bg-transparent — the persistent <SplineSceneWrapper /> (fixed z-0 in layout)
      * shows through every section as the user scrolls.
+     * cursor-none — hides the native OS cursor globally; CustomCursor renders instead.
      * Sections use relative z-10 with glass cards (backdrop-blur) for content legibility.
      */
-    <main className="relative min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950 bg-transparent">
-      {/* ── Awwwards-style Cinematic Parallax Hero Section ─────────── */}
+    <main className="relative min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950 bg-transparent cursor-none">
+      {/* ── Awwwards-style Cinematic Parallax Hero Section ─────────────────
+          Full-viewport height. The 3D keyboard occupies the right half;
+          typography anchors to the left. No padding-bottom here — the hero
+          takes exactly 100vh and the keyboard begins its GSAP rotation the
+          instant the user scrolls into the next section.
+      ─────────────────────────────────────────────────────────────────── */}
       <CinematicHero />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 space-y-16 pb-24">
-        {/* Executive Metric Bar — Skills section */}
-        <section id="skills" className="min-h-[50vh]">
-          <ExecutiveBar />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 space-y-0 pb-24">
+
+        {/* ── Section: Skills / Executive Bar ─────────────────────────────
+            pb-[20vh] gives the GSAP ScrollTrigger on the keyboard enough
+            scroll distance to fully complete the "hero → skills" rotation
+            animation before the Projects grid enters the viewport.
+
+            Layout: The ExecutiveBar is pushed to the RIGHT half (w-full
+            md:w-[55%] ml-auto), leaving the left 45% of the viewport
+            completely empty for the 3D keyboard to occupy — matching
+            Naresh's reference layout exactly.
+        ─────────────────────────────────────────────────────────────────── */}
+        <section id="skills" className="min-h-[50vh] pb-[20vh]">
+          <div className="w-full md:w-[55%] ml-auto">
+            <ExecutiveBar />
+          </div>
         </section>
 
-        {/* ── Section: Flagship Engineering (deferred chunk) ─────────── */}
-        <section id="projects" className="space-y-6 min-h-[60vh]">
+        {/* ── Section: Flagship Engineering ───────────────────────────────
+            pb-[20vh] ensures the "skills → projects" keyboard rotation has
+            enough scroll runway to animate fully before the grid appears.
+        ─────────────────────────────────────────────────────────────────── */}
+        <section id="projects" className="space-y-6 min-h-[60vh] pb-[20vh]">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Flagship Engineering
@@ -122,8 +143,11 @@ export default async function GalleryPage() {
           <BentoGrid projects={projects} />
         </section>
 
-        {/* ── Section: Engineering Journey (deferred chunks) ─────────── */}
-        <section className="space-y-6 min-h-[50vh]">
+        {/* ── Section: Engineering Journey ────────────────────────────────
+            pb-[20vh] gives the "projects → journey" keyboard transition
+            its scroll breathing room.
+        ─────────────────────────────────────────────────────────────────── */}
+        <section className="space-y-6 min-h-[50vh] pb-[20vh]">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Engineering Journey
@@ -142,10 +166,12 @@ export default async function GalleryPage() {
           </div>
         </section>
 
-        {/* ── Interactive Spatial Demo (deferred chunk) ───────────────── */}
-        <SpatialDemoSection />
+        {/* ── Interactive Spatial Demo ─────────────────────────────────── */}
+        <div className="pb-[20vh]">
+          <SpatialDemoSection />
+        </div>
 
-        {/* ── Section: Initiate Protocol — Contact Engine ─────────────── */}
+        {/* ── Section: Initiate Protocol — Contact Engine ──────────────── */}
         <section id="contact" className="space-y-6 pt-4 min-h-[60vh] border-t border-white/10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">

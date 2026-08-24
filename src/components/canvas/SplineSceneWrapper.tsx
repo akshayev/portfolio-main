@@ -94,11 +94,15 @@ function sleep(ms: number) {
 }
 
 function useMediaQuery(query: string) {
+  // Always initialise to `false` — this guarantees the SSR-rendered HTML and
+  // the initial client render tree are identical (both "desktop"), preventing
+  // React hydration error #418. The real value is applied after mount.
   const [value, setValue] = useState(false);
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const result = matchMedia(query);
     const onChange = (e: MediaQueryListEvent) => setValue(e.matches);
-    setValue(result.matches);
+    setValue(result.matches); // correct value applied post-hydration
     result.addEventListener("change", onChange);
     return () => result.removeEventListener("change", onChange);
   }, [query]);
@@ -153,6 +157,11 @@ export function SplineSceneWrapper() {
   // ── 1. GSAP MULTI-SECTION SCROLLTRIGGER ─────────────────────────────────────
   useGSAP(
     () => {
+      // Defensive guards — must be client-side AND splineApp must be populated.
+      // useGSAP can technically run before the Spline onLoad callback fires;
+      // returning early is safe because the dep-array [splineApp, isMobile]
+      // will re-trigger this callback once splineApp is set.
+      if (typeof window === "undefined") return;
       if (!splineApp) return;
       const kbd = splineApp.findObjectByName("keyboard") ?? splineApp.findObjectByName("Keyboard");
       if (!kbd) return;

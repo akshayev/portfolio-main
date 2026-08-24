@@ -37,10 +37,10 @@ export function SpatialDemoSection() {
             <GlassBadge variant="outline">MOBILE DEVICE DETECTED</GlassBadge>
           )}
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-white">
+        <h2 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-white">
           Titanium & Emerald{" "}
           <span className="text-emerald-400">Spatial Physics Gallery</span>
-        </h1>
+        </h2>
         <p className="max-w-2xl text-lg text-slate-400">
           The flagship card below is driven by global spatial tracking — mouse on
           desktop, gyroscope on mobile. All other cards retain local hover tracking.

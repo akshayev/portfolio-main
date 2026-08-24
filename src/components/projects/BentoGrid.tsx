@@ -30,48 +30,62 @@ const MOCK_PROJECTS: SanityProject[] = [
   {
     _id: "citypulse-ai",
     title: "CityPulse AI",
-    tagline: "Real-time urban intelligence platform with sub-10ms edge spatial queries.",
+    tagline: "AI-powered CRM web application with Python backend and Supabase real-time data layer.",
     problemStatement:
-      "Modern municipalities suffer from fragmented sensor data streams, making rapid emergency response and traffic congestion management reactive rather than predictive.",
+      "Businesses needed a smart CRM that could ingest lead data from multiple channels, score intent using AI, and surface actionable insights without manual data wrangling.",
     architecture:
-      "Distributed edge inference pipeline consuming live IoT sensor feeds, Next.js 15 App Router dashboard, and Upstash Redis vector search layer for sub-10ms geospatial lookups.",
-    metrics: ["Sub-10ms geospatial query latency", "99.9% edge uptime", "40% faster emergency dispatch"],
-    techStack: ["Next.js 15", "Edge AI", "Redis", "TypeScript"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://citypulse.ai",
+      "FastAPI Python backend deployed on Render, Next.js 15 frontend on Vercel, Supabase for real-time PostgreSQL, and OpenAI-powered lead scoring pipeline. Cloudflare Workers handle edge caching for sub-50ms API responses.",
+    metrics: ["<50ms API latency (edge-cached)", "3.5x lead conversion uplift", "Real-time Supabase sync"],
+    techStack: ["Next.js 15", "Python / FastAPI", "Supabase", "TypeScript", "OpenAI", "Render"],
+    githubUrl: "https://github.com/akshayev",
+    liveUrl: "https://citypulse.vercel.app",
+  },
+  {
+    _id: "vista-holidays",
+    title: "Vista Holidays",
+    tagline: "Full-stack travel platform with custom API integrations and complex booking UI architecture.",
+    problemStatement:
+      "Existing travel portals offered fragmented booking experiences — separate flows for flights, hotels, and packages. Vista unifies all three with live pricing APIs and a seamless multi-step checkout.",
+    architecture:
+      "Next.js App Router frontend with server actions, custom REST aggregation layer connecting to Amadeus Flight API and partner hotel feeds, PostgreSQL via Supabase, and Stripe for secure payment processing.",
+    metrics: ["Unified flight + hotel booking", "Live pricing from 3 partner APIs", "Stripe-secured checkout"],
+    techStack: ["Next.js 15", "Supabase", "Stripe", "TypeScript", "Amadeus API", "Framer Motion"],
+    githubUrl: "https://github.com/akshayev",
+    liveUrl: "https://vista-holidays.vercel.app",
   },
   {
     _id: "leadflow-pro",
     title: "LeadFlow Pro",
-    tagline: "AI-native B2B sales pipeline automation & agent orchestration.",
+    tagline: "Data pipeline and lead generation architecture with automated multi-channel orchestration.",
     problemStatement:
-      "B2B sales teams lose high-intent leads due to manual scoring delays and uncoordinated multi-channel follow-up workflows.",
+      "B2B sales teams lose high-intent leads due to manual scoring delays and uncoordinated follow-up workflows spread across email, LinkedIn, and WhatsApp.",
     architecture:
-      "Modular CRM automation engine using LLM intent scoring, Make.com webhooks for outreach orchestration, and Sanity CMS for collateral management.",
-    metrics: ["3.5x lead conversion rate", "Automated 85% of triage", "<2s response time"],
-    techStack: ["LLM Agents", "Make.com", "Sanity CMS", "Framer Motion"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://leadflow.pro",
+      "Python data ingestion pipeline feeding into Supabase, Make.com webhooks for automated outreach orchestration across email and WhatsApp Business API, Power Automate flows for CRM sync, and a React dashboard for pipeline visualization.",
+    metrics: ["Automated 85% of lead triage", "<2s intent-score response", "Deployed on Azure Functions"],
+    techStack: ["Python", "Power Platform", "Make.com", "Supabase", "Azure", "React"],
+    githubUrl: "https://github.com/akshayev",
+    liveUrl: "https://leadflow.vercel.app",
   },
   {
-    _id: "travelsphere",
-    title: "TravelSphere",
-    tagline: "Spatial-aware travel discovery engine with 60fps 3D layer maps.",
+    _id: "jeta-futures",
+    title: "JetaFutures",
+    tagline: "Football Trading League platform — frontend, backend, and full infrastructure.",
     problemStatement:
-      "Static travel portals fail to provide intuitive visual discovery for complex multi-destination itineraries.",
+      "Fantasy football platforms lacked real-time trade execution, portfolio tracking, and a live P&L dashboard. JetaFutures brings stock-market-style mechanics to football player trading.",
     architecture:
-      "Combines device gyroscope input with Mapbox 3D layers. Uses serverless AI routing to build optimized itineraries based on real-time flight and weather APIs.",
-    metrics: ["60fps 3D rendering", "10k+ active itineraries", "4.9/5 UX score"],
-    techStack: ["Mapbox", "Spatial UX", "pgvector", "Serverless AI"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://travelsphere.app",
+      "FastAPI backend with WebSocket support for live price feeds, React + TypeScript frontend with Recharts for P&L visualization, Supabase real-time subscriptions for portfolio updates, and Streamlit admin panel for league management.",
+    metrics: ["Real-time WebSocket price feeds", "Streamlit admin dashboard", "Live P&L tracking"],
+    techStack: ["FastAPI", "React", "Streamlit", "Supabase", "TypeScript", "Python"],
+    githubUrl: "https://github.com/akshayev",
+    liveUrl: "https://jetafutures.vercel.app",
   },
 ];
 
 const ICONS = [
   <Globe key="1" className="h-5 w-5 text-emerald-400" />,
-  <Zap key="2" className="h-5 w-5 text-emerald-400" />,
-  <Cpu key="3" className="h-5 w-5 text-emerald-400" />,
+  <Zap  key="2" className="h-5 w-5 text-emerald-400" />,
+  <Cpu  key="3" className="h-5 w-5 text-emerald-400" />,
+  <Code2 key="4" className="h-5 w-5 text-emerald-400" />,
 ];
 
 interface CardContentProps {
