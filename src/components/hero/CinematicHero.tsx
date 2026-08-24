@@ -1,11 +1,21 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline";
+import { motion, Variants } from "framer-motion";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+
+const importSpline = () => import("@splinetool/react-spline");
+const Spline = dynamic(importSpline, {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center text-emerald-500 font-mono text-sm">
+      Loading 3D Engine...
+    </div>
+  ),
+});
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -32,7 +42,7 @@ export function CinematicHero() {
   const title1 = "AKSHAY EV";
   const title2 = "FULL STACK ENGINEER";
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -40,7 +50,7 @@ export function CinematicHero() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: "100%", opacity: 0 },
     show: { y: 0, opacity: 1, transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
   };
@@ -51,8 +61,11 @@ export function CinematicHero() {
       className="relative h-screen w-full bg-[#050810] overflow-hidden select-none"
     >
       {/* 3D Spline Keyboard Background */}
-      <div className="absolute inset-0 z-0">
-        <Spline scene="https://prod.spline.design/kZCBKUjc7ToI2zKG/scene.splinecode" />
+      <div className="absolute inset-0 w-full h-[100vh] z-0 pointer-events-auto">
+        <Spline
+          scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+          className="w-full h-full"
+        />
       </div>
 
       {/* Massive Overlapping Typography */}
