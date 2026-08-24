@@ -363,6 +363,30 @@ The **Titanium & Emerald Spatial UI Portfolio** is now 100% complete across all 
 - `npx tsc --noEmit` → 0 errors (Pass)
 - `npm run lint` → 0 errors / 0 warnings (Pass)
 
+---
+
+## [UI Overhaul Phase 3: Fiber-Optic HUD Timeline & Scroll Reveals] ✅ COMPLETE - 2026-08-24
+
+### 📌 Summary & Deliverables
+
+#### Fiber-Optic HUD Timeline (`src/components/resume/TimelineTree.tsx`)
+- Refactored vertical track line to a subtle dashed data line (`border-l-2 border-dashed border-white/10`).
+- Replaced standard node dots with glowing emerald HUD rings (`w-4 h-4 rounded-full border-2 border-emerald-500 bg-[#0B0F19] shadow-[0_0_15px_rgba(16,185,129,0.3)] relative -left-[41px]`).
+- Wrapped each timeline milestone in a Neo-Glass `GlassPanel` (`intensity="light"`).
+- Styled dates with monospaced tracking (`font-mono text-emerald-400 text-xs sm:text-sm tracking-widest uppercase`).
+
+#### Framer Motion Scroll Reveals
+- Wrapped each timeline milestone card in `<motion.div>` with scroll-triggered blur/unblur animations:
+  - `initial={{ opacity: 0, x: -20, filter: 'blur(10px)' }}`
+  - `whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}`
+  - `viewport={{ once: true, margin: "-100px" }}`
+  - `transition={{ duration: 0.5, ease: "easeOut" }}`
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+
+
 
 
 
