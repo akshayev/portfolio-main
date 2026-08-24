@@ -444,3 +444,15 @@ The **Titanium & Emerald Spatial UI Portfolio** is now 100% complete across all 
 ### 🧪 Verification Metrics
 - `npx tsc --noEmit` → 0 errors (Pass)
 - `npm run lint` → 0 errors / 0 warnings (Pass)
+
+---
+
+## [UI Overhaul: Replicated Naresh Khatri GSAP/Lenis/Spline 3D Hero] ✅ COMPLETE
+
+### 📌 Summary & Deliverables
+- **Dependencies Installed**: `@splinetool/react-spline`, `lenis`, `gsap`, `@gsap/react`, `framer-motion`
+- **Smooth Scrolling Engine**: Updated `SmoothScrollProvider.tsx` options to `{ lerp: 0.1, duration: 1.5, smoothWheel: true }` matching the Naresh physics.
+- **Cinematic Hero Rewrite**: Completely rewrote `CinematicHero.tsx` integrating the exact requested Naresh aesthetic.
+- **Spline 3D Keyboard**: Configured as the `z-0` underlying scene via `scene="https://prod.spline.design/kZCBKUjc7ToI2zKG/scene.splinecode"`.
+- **Framer Motion Stagger Reveal**: Created character-by-character staggered text reveal on mount.
+- **GSAP Scroll Integration**: Utilized `gsap/ScrollTrigger` and `@gsap/react` to scale up and fade out the typography container upon scroll while scrubbing.
