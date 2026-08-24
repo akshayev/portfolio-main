@@ -318,5 +318,30 @@ The **Titanium & Emerald Spatial UI Portfolio** is now 100% complete across all 
 - **ESLint:** Pass (`npm run lint` -> 0 errors / 0 warnings)
 - **Next.js Production Build:** Pass (`npm run build` -> Route `/` compiled to 26.7 kB page chunk)
 
+---
+
+## [UI Overhaul Phase 1: Lenis Smooth Scroll & Cinematic Parallax Hero] ✅ COMPLETE - 2026-08-24
+
+### 📌 Summary & Deliverables
+
+#### Lenis Smooth Scroll Setup (`src/providers/SmoothScrollProvider.tsx`)
+- Installed `lenis` and implemented `SmoothScrollProvider` using `<ReactLenis root options={{ lerp: 0.1, syncTouch: true }}>`.
+- Imported `lenis/dist/lenis.css` and wrapped application `<body>` content in `layout.tsx`.
+- Updated `globals.css` with deep space titanium background `#050810` and `overflow-x: hidden`.
+
+#### Cinematic Parallax Hero (`src/components/hero/CinematicHero.tsx`)
+- Built a 140vh full-screen cinematic hero featuring high-contrast editorial typography (`AKSHAY EV`).
+- Connected Framer Motion `useScroll` and `useTransform` mapping functions:
+  - `textY`: `useTransform(scrollYProgress, [0, 1], ["0%", "75%"])`
+  - `textScale`: `useTransform(scrollYProgress, [0, 0.8], [1, 0.88])`
+  - `heroOpacity`: `useTransform(scrollYProgress, [0, 0.6], [1, 0])`
+  - `subtitleY`: `useTransform(scrollYProgress, [0, 1], ["0%", "120%"])`
+- Styled headline with `mix-blend-difference` for visual depth interactions over the underlying Spline 3D WebGL background (`-z-50`).
+
+### 🧪 Verification Metrics
+- `npx tsc --noEmit` → 0 errors (Pass)
+- `npm run lint` → 0 errors / 0 warnings (Pass)
+
+
 
 
