@@ -43,7 +43,7 @@ export function TechSphere() {
     return pos;
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.x -= delta / 10;
       groupRef.current.rotation.y -= delta / 15;
