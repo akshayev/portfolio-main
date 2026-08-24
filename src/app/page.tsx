@@ -94,18 +94,23 @@ export default async function GalleryPage() {
   }
 
   return (
-    <main className="relative min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+    /*
+     * bg-transparent — the persistent <SplineSceneWrapper /> (fixed z-0 in layout)
+     * shows through every section as the user scrolls.
+     * Sections use relative z-10 with glass cards (backdrop-blur) for content legibility.
+     */
+    <main className="relative min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950 bg-transparent">
       {/* ── Awwwards-style Cinematic Parallax Hero Section ─────────── */}
       <CinematicHero />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 space-y-16 pb-24">
-        {/* Executive Metric Bar */}
-        <section id="skills">
+        {/* Executive Metric Bar — Skills section */}
+        <section id="skills" className="min-h-[50vh]">
           <ExecutiveBar />
         </section>
 
         {/* ── Section: Flagship Engineering (deferred chunk) ─────────── */}
-        <section id="projects" className="space-y-6">
+        <section id="projects" className="space-y-6 min-h-[60vh]">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Flagship Engineering
@@ -118,7 +123,7 @@ export default async function GalleryPage() {
         </section>
 
         {/* ── Section: Engineering Journey (deferred chunks) ─────────── */}
-        <section className="space-y-6">
+        <section className="space-y-6 min-h-[50vh]">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Engineering Journey
@@ -141,7 +146,7 @@ export default async function GalleryPage() {
         <SpatialDemoSection />
 
         {/* ── Section: Initiate Protocol — Contact Engine ─────────────── */}
-        <section id="contact" className="space-y-6 pt-4 border-t border-white/10">
+        <section id="contact" className="space-y-6 pt-4 min-h-[60vh] border-t border-white/10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
               <div className="space-y-3">

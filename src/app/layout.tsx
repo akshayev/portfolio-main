@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CSPostHogProvider } from "@/providers/PostHogProvider";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
+import { GlobalCanvas } from "@/components/canvas/GlobalCanvas";
 
 /**
  * Inter — preloaded with font-display: swap to prevent FOIT.
@@ -75,6 +76,8 @@ export default function RootLayout({
       <body className="bg-[#050810] text-slate-100 antialiased font-sans selection:bg-emerald-500 selection:text-slate-950">
         <CSPostHogProvider>
           <SmoothScrollProvider>
+            {/* ── Global persistent 3D canvas — fixed z-0 behind all page content ── */}
+            <GlobalCanvas />
             {children}
           </SmoothScrollProvider>
         </CSPostHogProvider>
