@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SplineBackground } from "@/components/canvas/SplineBackground";
-import { StarBackground } from "@/components/canvas/StarBackground";
 import { CSPostHogProvider } from "@/providers/PostHogProvider";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 
@@ -77,12 +75,6 @@ export default function RootLayout({
       <body className="bg-[#050810] text-slate-100 antialiased font-sans selection:bg-emerald-500 selection:text-slate-950">
         <CSPostHogProvider>
           <SmoothScrollProvider>
-            {/* 3D Star Canvas Background */}
-            <StarBackground />
-
-            {/* Spline 3D Scene Layer */}
-            <SplineBackground />
-            
             {children}
           </SmoothScrollProvider>
         </CSPostHogProvider>

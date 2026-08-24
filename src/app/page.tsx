@@ -94,16 +94,18 @@ export default async function GalleryPage() {
   }
 
   return (
-    <main className="min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+    <main className="relative min-h-screen text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
       {/* ── Awwwards-style Cinematic Parallax Hero Section ─────────── */}
       <CinematicHero />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 space-y-16 pb-24">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 space-y-16 pb-24">
         {/* Executive Metric Bar */}
-        <ExecutiveBar />
+        <section id="skills">
+          <ExecutiveBar />
+        </section>
 
         {/* ── Section: Flagship Engineering (deferred chunk) ─────────── */}
-        <section className="space-y-6">
+        <section id="projects" className="space-y-6">
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Flagship Engineering
@@ -139,7 +141,7 @@ export default async function GalleryPage() {
         <SpatialDemoSection />
 
         {/* ── Section: Initiate Protocol — Contact Engine ─────────────── */}
-        <section className="space-y-6 pt-4 border-t border-white/10">
+        <section id="contact" className="space-y-6 pt-4 border-t border-white/10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
               <div className="space-y-3">

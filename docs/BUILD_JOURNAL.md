@@ -456,3 +456,4 @@ The **Titanium & Emerald Spatial UI Portfolio** is now 100% complete across all 
 - **Spline 3D Keyboard**: Configured as the `z-0` underlying scene via `scene="https://prod.spline.design/kZCBKUjc7ToI2zKG/scene.splinecode"`.
 - **Framer Motion Stagger Reveal**: Created character-by-character staggered text reveal on mount.
 - **GSAP Scroll Integration**: Utilized `gsap/ScrollTrigger` and `@gsap/react` to scale up and fade out the typography container upon scroll while scrubbing.
+\n### [CMS Integration] Sanity Fallback Resilience\n- **Date**: August 24, 2026\n- **Details**: Implemented a graceful fallback wrapper around `client.fetch` in `src/sanity/client.ts`. The build pipeline now gracefully intercepts missing credentials (falling back to empty arrays) instead of crashing on `Dataset not found` errors. Added `.env.local.example` and `.env.local` boilerplates.
