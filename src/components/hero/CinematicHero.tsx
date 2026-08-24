@@ -3,8 +3,10 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { GlassBadge } from "@/components/ui/glass/GlassBadge";
-import { ChevronDown, Sparkles, Terminal } from "lucide-react";
-
+import { FloatingBadge } from "@/components/ui/FloatingBadge";
+import { ChevronDown, Sparkles, Terminal, Cpu, Globe, Bot, Layers } from "lucide-react";
+import { Canvas } from "@react-three/fiber";
+import { TechSphere } from "@/components/canvas/TechSphere";
 export function CinematicHero() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -15,13 +17,9 @@ export function CinematicHero() {
   });
 
   // Parallax mappings
-  // 1. Text Y translation moves upward at a slower rate than standard scroll (0% -> 75%)
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "75%"]);
-  // 2. Text scale shrinks subtly into depth (1 -> 0.88)
   const textScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.88]);
-  // 3. Opacity fades smoothly as user scrolls past initial viewport (1 -> 0 at 60% progress)
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  // 4. Sub-heading moves in opposing direction for depth separation
   const subtitleY = useTransform(scrollYProgress, [0, 1], ["0%", "120%"]);
 
   return (
@@ -50,10 +48,51 @@ export function CinematicHero() {
 
           <div className="hidden md:flex items-center gap-6 text-xs font-mono text-slate-400 tracking-widest uppercase">
             <span>[LATENCY: 12ms]</span>
-            <span>[ENGINE: SPLINE 3D]</span>
+            <span>[ENGINE: R3F + SPLINE]</span>
             <span>[LOCATION: GLOBAL]</span>
           </div>
         </motion.div>
+
+        {/* Floating Spatial Tech Badges (Naresh-Khatri 3D Portfolio style) */}
+        <div className="pointer-events-none absolute inset-0 z-10 hidden lg:block overflow-hidden">
+          <div className="absolute top-[24%] left-[10%]">
+            <FloatingBadge
+              text="Next.js 15"
+              icon={<Globe className="h-4 w-4" />}
+              delay={0}
+            />
+          </div>
+          <div className="absolute top-[26%] right-[12%]">
+            <FloatingBadge
+              text="React 19"
+              icon={<Cpu className="h-4 w-4" />}
+              delay={0.8}
+            />
+          </div>
+          <div className="absolute bottom-[32%] left-[14%]">
+            <FloatingBadge
+              text="AI Agents"
+              icon={<Bot className="h-4 w-4" />}
+              delay={1.5}
+            />
+          </div>
+          <div className="absolute bottom-[30%] right-[10%]">
+            <FloatingBadge
+              text="WebGL 3D"
+              icon={<Layers className="h-4 w-4" />}
+              delay={2.2}
+            />
+          </div>
+        </div>
+
+        {/* WebGL Tech Sphere Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+          <Canvas camera={{ position: [0, 0, 8] }}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} />
+            <TechSphere />
+          </Canvas>
+        </div>
 
         {/* Center Parallax Typography Block */}
         <motion.div

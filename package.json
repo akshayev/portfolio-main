@@ -11,6 +11,8 @@
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
     "@marsidev/react-turnstile": "^1.6.0",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^2.0.5",
     "@upstash/ratelimit": "^2.0.8",
@@ -29,6 +31,7 @@
     "sanity": "^3.50.0",
     "styled-components": "^6.1.13",
     "tailwind-merge": "^3.6.0",
+    "three": "^0.185.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -36,6 +39,7 @@
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.185.4",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.0.0",
     "postcss": "^8.0.0",
