@@ -1,4 +1,4 @@
-# Portfolio Project Vault
+# Portfolio Project Vault.
 
 Welcome to your project's Obsidian Vault! This directory stores your project documentation, architecture notes, development logs, and feature plans using standard Markdown.
 
