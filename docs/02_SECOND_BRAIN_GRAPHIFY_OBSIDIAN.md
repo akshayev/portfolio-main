@@ -6,7 +6,7 @@ This `/docs` directory serves as the interactive Second Brain knowledge graph fo
 ## 2. Obsidian Vault Setup Instructions
 1. Launch **Obsidian**.
 2. Click **"Open folder as vault"**.
-3. Navigate to and select the repository root directory (`/home/akshay/Desktop/project/portfolio`).
+3. Navigate to and select the repository root directory (this repository's root directory).
 4. Obsidian will recognize the `/docs` structure and render markdown links, tags, and graph nodes.
 
 ## 3. Graphify Knowledge Graph Integration

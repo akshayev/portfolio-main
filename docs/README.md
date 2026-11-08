@@ -6,10 +6,10 @@ Welcome to your project's Obsidian Vault! This directory stores your project doc
 
 ## 📁 Vault Structure
 
-- [`01 - Overview/`](file:///home/akshay/Desktop/project/portfolio/docs/01%20-%20Overview/README.md): High-level project summary and tech stack.
-- [`02 - Architecture/`](file:///home/akshay/Desktop/project/portfolio/docs/02%20-%20Architecture/Architecture.md): System components, data flow, and design patterns.
-- [`03 - Features/`](file:///home/akshay/Desktop/project/portfolio/docs/03%20-%20Features/Roadmap.md): Feature backlogs, tasks, and implementation plans.
-- [`04 - Dev Logs/`](file:///home/akshay/Desktop/project/portfolio/docs/04%20-%20Dev%20Logs/DevLog.md): Technical notes, decision records, and debugging logs.
+- [`01 - Overview/`](./01%20-%20Overview/README.md): High-level project summary and tech stack.
+- [`02 - Architecture/`](./02%20-%20Architecture/Architecture.md): System components, data flow, and design patterns.
+- [`03 - Features/`](./03%20-%20Features/Roadmap.md): Feature backlogs, tasks, and implementation plans.
+- [`04 - Dev Logs/`](./04%20-%20Dev%20Logs/DevLog.md): Technical notes, decision records, and debugging logs.
 
 ---
 
@@ -26,4 +26,4 @@ Welcome to your project's Obsidian Vault! This directory stores your project doc
 
 1. Open **Obsidian**.
 2. Click **"Open folder as vault"**.
-3. Select this `docs` folder (`/home/akshay/Desktop/project/portfolio/docs`)
+3. Select this `docs` folder (`docs/` folder of this repo)
