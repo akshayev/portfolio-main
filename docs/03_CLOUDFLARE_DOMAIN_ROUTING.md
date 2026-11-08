@@ -9,7 +9,7 @@ This guide outlines the step-by-step procedure for registering, configuring, and
 ### 1. `is-a.dev` Domain Registration
 - [ ] Go to [github.com/is-a-dev/register](https://github.com/is-a-dev/register).
 - [ ] Fork the repository to your personal GitHub account.
-- [ ] In your fork, create a new file under the `domains/` folder named `akshay.json` using the configuration template created in [`config/domain/akshay.json`](file:///home/akshay/Desktop/project/portfolio/config/domain/akshay.json):
+- [ ] In your fork, create a new file under the `domains/` folder named `akshay.json` using the configuration template created in [`config/domain/akshay.json`](../config/domain/akshay.json):
   ```json
   {
     "owner": {
